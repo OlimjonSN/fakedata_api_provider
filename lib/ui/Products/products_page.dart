@@ -2,6 +2,8 @@ import 'package:fakedata_api_provider/view_model/products_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'widgets/product_item.dart';
+
 class ProductsPage extends StatelessWidget {
   const ProductsPage({super.key});
 
@@ -15,17 +17,13 @@ class ProductsPage extends StatelessWidget {
         body: Consumer<ProductViewModel>(
           builder: (context, value, child) {
             if (value.products.isNotEmpty) {
-              return ListView.builder(
+              return GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2),
                   itemCount: value.products.length,
                   itemBuilder: (context, index) {
-                    return ListTile(
-                      title: Text(value.products[index].title),
-                      subtitle: Text(value.products[index].price.toString()),
-                      leading: SizedBox(
-                          height: size.height * 0.1,
-                          width: size.width * 0.2,
-                          child: Image.network(value.products[index].image)),
-                    );
+                    return Product_item(
+                        product: value.products[index], size: size);
                   });
             } else {
               return const Center(child: CircularProgressIndicator());
